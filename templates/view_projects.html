@@ -277,7 +277,24 @@
 </head>
 <body>
     <!-- 添加导航栏，包含 Logout 按钮 -->
-    <nav class="navbar navbar-expand-lg navbar-dark">
+    <!-- <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">All Projects</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <form action="/login" method="get">
+                            <input type="submit" value="Logout" class="btn btn-danger">
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav> -->
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background: linear-gradient(135deg, #6a11cb, #2575fc);">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">All Projects</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -294,7 +311,7 @@
             </div>
         </div>
     </nav>
-
+    
     <div class="container mt-4">
         <h2 class="mb-4 text-center" style="color: #fff;">View Projects</h2>
         <div class="row" id="projects"></div> <!-- 使用 Bootstrap 的栅格系统 -->
@@ -310,12 +327,18 @@
 
     <script>
         // 生成随机浅色
+        // function getRandomLightColor() {
+        //     const hue = Math.floor(Math.random() * 360); // 随机色调
+        //     const saturation = Math.floor(Math.random() * 20) + 45; // 饱和度在80%-100%之间
+        //     const lightness = Math.floor(Math.random() * 20) + 50; // 亮度在70%-90%之间
+        //     return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+        // }
         function getRandomLightColor() {
-            const hue = Math.floor(Math.random() * 360); // 随机色调
-            const saturation = Math.floor(Math.random() * 20) + 80; // 饱和度在80%-100%之间
-            const lightness = Math.floor(Math.random() * 20) + 50; // 亮度在70%-90%之间
-            return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
-        }
+           const hue = Math.floor(Math.random() * (310 - 200) + 200); // 色调限制在蓝色和紫色范围
+           const saturation = Math.floor(Math.random() * 20) + 50; // 饱和度在45%-65%之间
+           const lightness = Math.floor(Math.random() * 20) + 55; // 亮度在60%-80%之间
+           return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+       }
 
         async function loadProjects() {
             if (typeof window.ethereum !== 'undefined') {
