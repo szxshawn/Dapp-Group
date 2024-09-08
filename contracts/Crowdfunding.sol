@@ -9,18 +9,20 @@ contract Crowdfunding {
         uint goal;
         uint pledged;
         bool completed;
+        string userAccount; 
     }
 
     Project[] public projects;
 
-    function createProject(string memory _name, string memory _description, uint _goal) public {
+    function createProject(string memory _name, string memory _description, uint _goal, string memory _userAccount) public {
         projects.push(Project({
             owner: msg.sender,
             name: _name,
             description: _description,
             goal: _goal,
             pledged: 0,
-            completed: false
+            completed: false,
+            userAccount: _userAccount 
         }));
     }
 
@@ -33,9 +35,9 @@ contract Crowdfunding {
         }
     }
 
-    function getProject(uint _projectId) public view returns (address, string memory, string memory, uint, uint, bool) {
+    function getProject(uint _projectId) public view returns (address, string memory, string memory, uint, uint, bool, string memory) {
         Project storage project = projects[_projectId];
-        return (project.owner, project.name, project.description, project.goal, project.pledged, project.completed);
+        return (project.owner, project.name, project.description, project.goal, project.pledged, project.completed, project.userAccount);
     }
 
     function getProjectsCount() public view returns (uint) {
