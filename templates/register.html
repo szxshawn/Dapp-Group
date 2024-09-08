@@ -3,24 +3,126 @@
 <head>
     <meta charset="UTF-8">
     <title>Register</title>
+    <!-- 引入Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- 自定义样式 -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+        }
+
+        .register-container {
+            background: linear-gradient(to bottom right, #ffffff, #f1f1f1); /* 添加渐变背景 */
+            padding: 40px;
+            border-radius: 15px; /* 更大的圆角 */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15), 0 16px 32px rgba(0, 0, 0, 0.05); /* 添加更柔和的多重阴影 */
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            border: 1px solid rgba(0, 0, 0, 0.1); /* 添加轻微的边框 */
+            position: relative; /* 设置定位，为装饰元素做准备 */
+            overflow: hidden; /* 隐藏溢出 */
+        }
+
+        .register-container h2 {
+            margin-bottom: 30px;
+            font-weight: bold; /* 加粗标题 */
+            color: #333; /* 改变标题颜色 */
+        }
+
+        .form-group {
+            margin-bottom: 20px; /* 添加底部间距 */
+            text-align: left; /* 标签左对齐 */
+        }
+
+        .form-group label {
+            display: block; /* 标签块显示，位于输入框上方 */
+            margin-bottom: 5px; /* 标签和输入框之间的间距 */
+            font-weight: bold; /* 标签加粗 */
+        }
+
+        .form-control {
+            border-radius: 30px; /* 改变输入框的圆角 */
+            border: 1px solid #ddd; /* 更淡的边框颜色 */
+            padding: 10px 15px; /* 增加内边距 */
+        }
+
+        .form-control:focus {
+            box-shadow: 0 0 8px rgba(33, 150, 243, 0.5); /* 输入框获得焦点时的阴影效果 */
+            border-color: #2196f3; /* 输入框获得焦点时的边框颜色 */
+        }
+
+        .btn-primary {
+            width: 100%;
+            border-radius: 30px; /* 圆角按钮 */
+            background: linear-gradient(135deg, #6a11cb, #2575fc); /* 渐变按钮 */
+            border: none; /* 去掉边框 */
+            padding: 10px 15px; /* 增加按钮的内边距 */
+            font-size: 1.1rem; /* 增大按钮字体 */
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #2575fc, #6a11cb); /* 悬停时反向渐变 */
+        }
+
+        .login-link {
+            display: block;
+            margin-top: 20px;
+            color: #2575fc; /* 改变链接颜色 */
+            text-decoration: none; /* 去掉下划线 */
+            font-weight: bold; /* 加粗文字 */
+        }
+
+        .login-link:hover {
+            text-decoration: underline; /* 悬停时显示下划线 */
+        }
+
+        #message-box {
+            color: red;
+            margin-bottom: 20px;
+            display: none; /* 默认隐藏 */
+        }
+
+        #message-box.show {
+            display: block; /* 如果有消息，显示消息框 */
+        }
+    </style>
 </head>
 <body>
-    <h2>Register</h2>
-    {% if message %}
-    <div id="message-box" style="color: red;">
-        {{ message }}
+    <!-- 注册表单容器 -->
+    <div class="register-container">
+        <h2>Register</h2>
+        <!-- 消息框 -->
+        {% if message %}
+        <div id="message-box" class="show">
+            {{ message }}
+        </div>
+        {% else %}
+        <div id="message-box"></div>
+        {% endif %}
+        
+        <form method="post">
+            <div class="form-group">
+                <label for="wallet_address">User Name:</label>
+                <input type="text" class="form-control" name="wallet_address" id="wallet_address" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" class="form-control" name="password" id="password" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Register</button>
+        </form>
+        <a href="{{ url_for('login') }}" class="login-link">Login</a>
     </div>
-    {% else %}
-    <div id="message-box" style="display: none;"></div>
-    {% endif %}
-    <form method="post">
-        <label for="wallet_address">User Name:</label>
-        <input type="text" name="wallet_address" required>
-        <label for="password">Password:</label>
-        <input type="password" name="password" required>
-        <button type="submit">Register</button>
-    </form>
-    <a href="{{ url_for('login') }}">Login</a>
+
+    <!-- 引入Bootstrap的JavaScript库 -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
