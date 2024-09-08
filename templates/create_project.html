@@ -23,7 +23,7 @@
             border-radius: 15px; /* 更大的圆角 */
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15), 0 16px 32px rgba(0, 0, 0, 0.05); /* 添加更柔和的多重阴影 */
             width: 100%;
-            max-width: 600px; /* 设置容器宽度 */
+            max-width: 500px; /* 设置容器宽度 */
             text-align: center;
             border: 1px solid rgba(0, 0, 0, 0.1); /* 添加轻微的边框 */
             position: relative; /* 设置定位，为装饰元素做准备 */
@@ -76,6 +76,21 @@
         .btn-primary:hover, .btn-secondary:hover {
             background: linear-gradient(135deg, #2575fc, #6a11cb); /* 悬停时反向渐变 */
         }
+
+        .btn-logout {
+            width: 50%; /* 较小的按钮宽度 */
+            border-radius: 30px; /* 圆角按钮 */
+            background: #dc3545; /* 红色背景 */
+            color: white; /* 按钮文字颜色 */
+            border: none; /* 去掉边框 */
+            padding: 8px 10px; /* 较小的内边距 */
+            font-size: 0.9rem; /* 较小的字体 */
+            margin-top: 10px; /* 按钮上方的间距 */
+        }
+
+        .btn-logout:hover {
+            background: #c82333; /* 悬停时的红色变化 */
+        }
     </style>
 </head>
 <body>
@@ -101,8 +116,9 @@
         <form action="/dashboard" method="post">
             <button type="submit" class="btn btn-secondary">Back to Dashboard</button>
         </form>
+        <!-- Logout按钮 -->
         <form action="/login" method="get">
-            <button type="submit" value="Logout" class="btn btn-danger">
+            <button type="submit" class="btn btn-logout">Logout</button>
         </form>
     </div>
 
