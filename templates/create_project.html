@@ -79,6 +79,24 @@
     </style>
 </head>
 <body>
+    <!-- 添加导航栏，包含 Logout 按钮 -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">All Projects</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <form action="/login" method="get">
+                            <input type="submit" value="Logout" class="btn btn-danger">
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
     <!-- Create Project 容器 -->
     <div class="create-project-container">
         <h2>Create Project</h2>
@@ -119,17 +137,156 @@
                 const contractABI = [
                     {
                         "inputs": [
-                            {"internalType": "string", "name": "_name", "type": "string"},
-                            {"internalType": "string", "name": "_description", "type": "string"},
-                            {"internalType": "uint256", "name": "_goal", "type": "uint256"},
-                            {"internalType": "string", "name": "_userAccount", "type": "string"}
+                            {
+                                "internalType": "string",
+                                "name": "_name",
+                                "type": "string"
+                            },
+                            {
+                                "internalType": "string",
+                                "name": "_description",
+                                "type": "string"
+                            },
+                            {
+                                "internalType": "uint256",
+                                "name": "_goal",
+                                "type": "uint256"
+                            },
+                            {
+                                "internalType": "string",
+                                "name": "_userAccount",
+                                "type": "string"
+                            }
                         ],
                         "name": "createProject",
                         "outputs": [],
                         "stateMutability": "nonpayable",
                         "type": "function"
                     },
-                    // ... 其他ABI省略
+                    {
+                        "inputs": [
+                            {
+                                "internalType": "uint256",
+                                "name": "_projectId",
+                                "type": "uint256"
+                            }
+                        ],
+                        "name": "pledge",
+                        "outputs": [],
+                        "stateMutability": "payable",
+                        "type": "function"
+                    },
+                    {
+                        "inputs": [
+                            {
+                                "internalType": "uint256",
+                                "name": "_projectId",
+                                "type": "uint256"
+                            }
+                        ],
+                        "name": "getProject",
+                        "outputs": [
+                            {
+                                "internalType": "address",
+                                "name": "",
+                                "type": "address"
+                            },
+                            {
+                                "internalType": "string",
+                                "name": "",
+                                "type": "string"
+                            },
+                            {
+                                "internalType": "string",
+                                "name": "",
+                                "type": "string"
+                            },
+                            {
+                                "internalType": "uint256",
+                                "name": "",
+                                "type": "uint256"
+                            },
+                            {
+                                "internalType": "uint256",
+                                "name": "",
+                                "type": "uint256"
+                            },
+                            {
+                                "internalType": "bool",
+                                "name": "",
+                                "type": "bool"
+                            },
+                            {
+                                "internalType": "string",
+                                "name": "",
+                                "type": "string"
+                            }
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
+                    },
+                    {
+                        "inputs": [],
+                        "name": "getProjectsCount",
+                        "outputs": [
+                            {
+                                "internalType": "uint256",
+                                "name": "",
+                                "type": "uint256"
+                            }
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
+                    },
+                    {
+                        "inputs": [
+                            {
+                                "internalType": "uint256",
+                                "name": "",
+                                "type": "uint256"
+                            }
+                        ],
+                        "name": "projects",
+                        "outputs": [
+                            {
+                                "internalType": "address",
+                                "name": "owner",
+                                "type": "address"
+                            },
+                            {
+                                "internalType": "string",
+                                "name": "name",
+                                "type": "string"
+                            },
+                            {
+                                "internalType": "string",
+                                "name": "description",
+                                "type": "string"
+                            },
+                            {
+                                "internalType": "uint256",
+                                "name": "goal",
+                                "type": "uint256"
+                            },
+                            {
+                                "internalType": "uint256",
+                                "name": "pledged",
+                                "type": "uint256"
+                            },
+                            {
+                                "internalType": "bool",
+                                "name": "completed",
+                                "type": "bool"
+                            },
+                            {
+                                "internalType": "string",
+                                "name": "userAccount",
+                                "type": "string"
+                            }
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
+                    }
                 ];
                 const contract = new web3.eth.Contract(contractABI, contractAddress);
                 const goalInWei = web3.utils.toWei(goal, 'ether');
