@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Projects</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
+</head>
+<body>
+    <h2>View Projects</h2>
+    <div id="projects"></div>
+    <script>
+        async function loadProjects() {
+            if (typeof window.ethereum !== 'undefined') {
+                const web3 = new Web3(window.ethereum);
+                const contractAddress = '0x99F49273D0EB32eBD8eeB66Fe44248787e247635';
+                const contractABI = [
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_name",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_description",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_goal",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_userAccount",
+				"type": "string"
+			}
+		],
+		"name": "createProject",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_projectId",
+				"type": "uint256"
+			}
+		],
+		"name": "pledge",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_projectId",
+				"type": "uint256"
+			}
+		],
+		"name": "getProject",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getProjectsCount",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "projects",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "description",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "goal",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "pledged",
+				"type": "uint256"
+			},
+			{
+				"internalType": "bool",
+				"name": "completed",
+				"type": "bool"
+			},
+			{
+				"internalType": "string",
+				"name": "userAccount",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+];
+                const contract = new web3.eth.Contract(contractABI, contractAddress);
+
+                const projectCount = await contract.methods.getProjectsCount().call();
+                let projectsHtml = '';
+                for (let i = 0; i < projectCount; i++) {
+                    const project = await contract.methods.getProject(i).call();
+
+                    const goalAmountInEth = web3.utils.fromWei(project[3], 'ether');
+                    const pledgedAmountInEth = web3.utils.fromWei(project[4], 'ether');
+
+                    projectsHtml += `<div>
+                        <h3><a href="/donate/${i}">${project[1]}</a></h3>
+                        <p>${project[2]}</p>
+                        <p>Goal: ${goalAmountInEth} ETH</p>
+                        <p>Pledged: ${pledgedAmountInEth} ETH</p>
+                        <p>Status: ${project[5] ? 'Completed' : 'Active'}</p>
+                        <p>Creator: ${project[6]}</p>
+                    </div>`;
+                }
+                document.getElementById('projects').innerHTML = projectsHtml;
+            } else {
+                alert('Please install MetaMask to use this feature!');
+            }
+        }
+
+        loadProjects();
+        setInterval(loadProjects, 3000);
+    </script>
+</body>
+</html>
+

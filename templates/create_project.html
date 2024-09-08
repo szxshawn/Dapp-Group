@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Project</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
+</head>
+<body>
+    <h2>Create Project</h2>
+    <form id="createProjectForm">
+        <label for="name">Project Name:</label>
+        <input type="text" id="name" required>
+        <label for="description">Description:</label>
+        <textarea id="description" required></textarea>
+        <label for="goal">Goal (Sepolia ETH):</label>
+        <input type="number" id="goal" required>
+        <input type="hidden" id="walletAddress" value="{{ wallet_address }}">
+        <button type="submit">Create</button>
+    </form>
+    <script>
+        document.getElementById('createProjectForm').onsubmit = async function(event) {
+            event.preventDefault();
+            const name = document.getElementById('name').value;
+            const description = document.getElementById('description').value;
+            const goal = document.getElementById('goal').value;
+            const walletAddress = document.getElementById('walletAddress').value;
+
+            if (typeof window.ethereum !== 'undefined') {
+                const web3 = new Web3(window.ethereum);
+                await window.ethereum.enable();
+                const accounts = await web3.eth.getAccounts();
+                const contractAddress = '0x99F49273D0EB32eBD8eeB66Fe44248787e247635';
+                const contractABI = [
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_name",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_description",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_goal",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_userAccount",
+				"type": "string"
+			}
+		],
+		"name": "createProject",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_projectId",
+				"type": "uint256"
+			}
+		],
+		"name": "pledge",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_projectId",
+				"type": "uint256"
+			}
+		],
+		"name": "getProject",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getProjectsCount",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "projects",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "description",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "goal",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "pledged",
+				"type": "uint256"
+			},
+			{
+				"internalType": "bool",
+				"name": "completed",
+				"type": "bool"
+			},
+			{
+				"internalType": "string",
+				"name": "userAccount",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+];
+                const contract = new web3.eth.Contract(contractABI, contractAddress);
+                const goalInWei = web3.utils.toWei(goal, 'ether');
+
+                try {
+                    await contract.methods.createProject(name, description, goalInWei, walletAddress)
+                        .send({ from: accounts[0] });
+
+                    alert('Project created successfully!');
+                    window.location.href = '{{ url_for('dashboard') }}';
+                } catch (error) {
+                    console.error("Error creating project:", error);
+                    alert('Failed to create project.');
+                }
+            } else {
+                alert('Please install MetaMask to use this feature!');
+            }
+        }
+    </script>
+</body>
+</html>
+

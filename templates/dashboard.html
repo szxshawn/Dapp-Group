@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
+</head>
+<body>
+    <h2>Dashboard</h2>
+    <button onclick="window.location.href='{{ url_for('create_project') }}'">Create Project</button>
+    <button onclick="window.location.href='{{ url_for('view_projects') }}'">View Projects</button>
+    <button onclick="window.location.href='{{ url_for('my_projects') }}'">My Projects</button>
+</body>
+</html>
