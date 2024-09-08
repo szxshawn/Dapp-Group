@@ -300,11 +300,12 @@
         <div class="row" id="projects"></div> <!-- 使用 Bootstrap 的栅格系统 -->
     
         <!-- 返回 Dashboard 的按钮，使用 d-flex 和 justify-content-center 使按钮居中 -->
-        <div class="d-flex justify-content-center mt-4">
-            <form action="/dashboard" method="post">
-                <input type="submit" value="Back to Dashboard" class="btn btn-success">
-            </form>
-        </div>
+    <div class="d-flex justify-content-center mt-4">
+    <form action="/dashboard" method="post">
+        <input type="submit" value="Back to Dashboard" class="btn" style="background: linear-gradient(135deg, #6a11cb, #2575fc); color: white; border: none; padding: 10px 20px; border-radius: 50px; cursor: pointer;">
+    </form>
+</div>
+
     </div>
 
     <script>
@@ -387,7 +388,9 @@
                             <p class="card-text">Pledged: ${pledgedAmountInEth} ETH</p>
                             <p class="card-text">Status: ${project[5] ? 'Completed' : 'Active'}</p>
                             <p class="card-text">Creator: ${project[6]}</p>
-                            <a href="/donate/${i}" class="btn btn-primary">Donate</a>
+                            <a href="/donate/${i}" class="btn" style="background: linear-gradient(135deg, #6a11cb, #2575fc); color: white; border: 2px solid white; padding: 5px 15px; font-size: 12px; border-radius: 30px; box-shadow: 0 0 8px 2px white; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);">Donate</a>
+
+
                         </div>
                     </div>`;
                 }
