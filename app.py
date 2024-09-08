@@ -28,7 +28,7 @@ def login():
             session['wallet_address'] = user.wallet_address
             return redirect(url_for('dashboard'))
         else:
-            return "Invalid credentials. Please check your address and password."
+            return "Invalid credentials. \nPlease check your address and password. \nPlease also make sure you have registered."
     return render_template('login.html')
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -42,7 +42,7 @@ def register():
         return redirect(url_for('login'))
     return render_template('register.html')
 
-@app.route('/dashboard')
+@app.route('/dashboard', methods=["GET", "POST"])
 def dashboard():
     if 'user_id' not in session:
         return redirect(url_for('login'))
@@ -54,17 +54,17 @@ def create_project():
         return redirect(url_for('login'))
     return render_template('create_project.html', wallet_address=session['wallet_address'])
 
-@app.route('/view_projects')
+@app.route('/view_projects', methods=["GET", "POST"])
 def view_projects():
     return render_template('view_projects.html')
 
-@app.route('/my_projects')
+@app.route('/my_projects', methods=["GET", "POST"])
 def my_projects():
     if 'wallet_address' not in session:
         return redirect(url_for('login'))
     return render_template('my_projects.html', wallet_address=session['wallet_address'])
 
-@app.route('/donate/<int:project_id>')
+@app.route('/donate/<int:project_id>', methods=["GET", "POST"])
 def donate(project_id):
     return render_template('donate.html', project_id=project_id)
 
