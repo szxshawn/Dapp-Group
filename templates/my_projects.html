@@ -9,6 +9,9 @@
 <body>
     <h2>My Projects</h2>
     <div id="myProjects"></div>
+    <form action = "/dashboard" method="post">
+		<button type="submit">Back to Dashboard</button>
+	</form>
     <script>
         async function loadMyProjects() {
             if (typeof window.ethereum !== 'undefined') {

@@ -18,6 +18,9 @@
         <input type="hidden" id="walletAddress" value="{{ wallet_address }}">
         <button type="submit">Create</button>
     </form>
+	<form action = "/dashboard" method="post">
+		<button type="submit">Back to Dashboard</button>
+	</form>
     <script>
         document.getElementById('createProjectForm').onsubmit = async function(event) {
             event.preventDefault();

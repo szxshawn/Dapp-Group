@@ -10,6 +10,9 @@
 	<!-- //////ssss -->
     <h2>View Projects</h2>
     <div id="projects"></div>
+	<form action="/dashboard" method="post">
+		<input type="submit" value="Back to Dashboard" style="background-color: #4CAF50; color: white; border: none; cursor: pointer;">
+	</form>
     <script>
         async function loadProjects() {
             if (typeof window.ethereum !== 'undefined') {
