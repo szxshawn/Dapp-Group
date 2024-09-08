@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -7,7 +7,6 @@
     <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
 </head>
 <body>
-	<!-- //////ssss -->
     <h2>View Projects</h2>
     <div id="projects"></div>
 	<form action="/dashboard" method="post">
@@ -200,6 +199,211 @@
         loadProjects();
         setInterval(loadProjects, 3000);
     </script>
+</body>
+</html>
+ -->
+
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Projects</title>
+    <!-- 引入 Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- 确保页面自适应设备宽度 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
+    <style>
+        /* 设置背景图片样式 */
+        body {
+            background-image: url('images/background.jpg'); /* 本地图片路径 */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: #fff;
+        }
+
+        .project-card {
+            border: 1px solid #e3e3e3;
+            padding: 20px;
+            box-sizing: border-box;
+            border-radius: 10px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background-color: rgba(255, 255, 255, 0.9); /* 背景颜色默认值（将被动态替换） */
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .project-card h5 {
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            border-radius: 50px;
+            padding: 10px 20px;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .card-text {
+            color: #fff;
+            line-height: 1.6;
+        }
+
+        /* 导航栏样式 */
+        .navbar {
+            background-color: #343a40; /* 深色背景 */
+        }
+
+        .navbar .nav-link {
+            color: white; /* 链接颜色 */
+        }
+    </style>
+</head>
+<body>
+    <!-- 添加导航栏，包含 Logout 按钮 -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">All Projects</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <form action="/login" method="get">
+                            <input type="submit" value="Logout" class="btn btn-danger">
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <h2 class="mb-4 text-center" style="color: #fff;">View Projects</h2>
+        <div class="row" id="projects"></div> <!-- 使用 Bootstrap 的栅格系统 -->
+    
+        <!-- 返回 Dashboard 的按钮，使用 d-flex 和 justify-content-center 使按钮居中 -->
+        <div class="d-flex justify-content-center mt-4">
+            <form action="/dashboard" method="post">
+                <input type="submit" value="Back to Dashboard" class="btn btn-success">
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // 生成随机浅色
+        function getRandomLightColor() {
+            const hue = Math.floor(Math.random() * 360); // 随机色调
+            const saturation = Math.floor(Math.random() * 20) + 80; // 饱和度在80%-100%之间
+            const lightness = Math.floor(Math.random() * 20) + 50; // 亮度在70%-90%之间
+            return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+        }
+
+        async function loadProjects() {
+            if (typeof window.ethereum !== 'undefined') {
+                const web3 = new Web3(window.ethereum);
+                const contractAddress = '0x99F49273D0EB32eBD8eeB66Fe44248787e247635';
+                const contractABI = [
+                    {
+                        "inputs": [
+                            {"internalType": "string", "name": "_name", "type": "string"},
+                            {"internalType": "string", "name": "_description", "type": "string"},
+                            {"internalType": "uint256", "name": "_goal", "type": "uint256"},
+                            {"internalType": "string", "name": "_userAccount", "type": "string"}
+                        ],
+                        "name": "createProject",
+                        "outputs": [],
+                        "stateMutability": "nonpayable",
+                        "type": "function"
+                    },
+                    {
+                        "inputs": [{"internalType": "uint256", "name": "_projectId", "type": "uint256"}],
+                        "name": "pledge",
+                        "outputs": [],
+                        "stateMutability": "payable",
+                        "type": "function"
+                    },
+                    {
+                        "inputs": [{"internalType": "uint256", "name": "_projectId", "type": "uint256"}],
+                        "name": "getProject",
+                        "outputs": [
+                            {"internalType": "address", "name": "", "type": "address"},
+                            {"internalType": "string", "name": "", "type": "string"},
+                            {"internalType": "string", "name": "", "type": "string"},
+                            {"internalType": "uint256", "name": "", "type": "uint256"},
+                            {"internalType": "uint256", "name": "", "type": "uint256"},
+                            {"internalType": "bool", "name": "", "type": "bool"},
+                            {"internalType": "string", "name": "", "type": "string"}
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
+                    },
+                    {
+                        "inputs": [],
+                        "name": "getProjectsCount",
+                        "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
+                        "stateMutability": "view",
+                        "type": "function"
+                    }
+                ];
+
+                const contract = new web3.eth.Contract(contractABI, contractAddress);
+                const projectCount = await contract.methods.getProjectsCount().call();
+                let projectsHtml = '';
+                for (let i = 0; i < projectCount; i++) {
+                    const project = await contract.methods.getProject(i).call();
+
+                    const goalAmountInEth = web3.utils.fromWei(project[3], 'ether');
+                    const pledgedAmountInEth = web3.utils.fromWei(project[4], 'ether');
+
+                    // 生成两个随机浅色并创建渐变背景
+                    const color1 = getRandomLightColor();
+                    const color2 = getRandomLightColor();
+                    const backgroundStyle = `background: linear-gradient(135deg, ${color1}, ${color2});`;
+
+                    // 使用 Bootstrap 的卡片组件
+                    projectsHtml += `<div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                        <div class="project-card" style="${backgroundStyle}">
+                            <h5 class="card-title">${project[1]}</h5>
+                            <p class="card-text">Description: ${project[2]}</p>
+                            <p class="card-text">Goal: ${goalAmountInEth} ETH</p>
+                            <p class="card-text">Pledged: ${pledgedAmountInEth} ETH</p>
+                            <p class="card-text">Status: ${project[5] ? 'Completed' : 'Active'}</p>
+                            <p class="card-text">Creator: ${project[6]}</p>
+                            <a href="/donate/${i}" class="btn btn-primary">Donate</a>
+                        </div>
+                    </div>`;
+                }
+                document.getElementById('projects').innerHTML = projectsHtml;
+            } else {
+                alert('Please install MetaMask to use this feature!');
+            }
+        }
+
+        loadProjects();
+        setInterval(loadProjects, 3000);
+    </script>
+
+    <!-- 引入 Bootstrap JS 和 Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
 </body>
 </html>
 
