@@ -28,7 +28,7 @@ def login():
             session['wallet_address'] = user.wallet_address
             return redirect(url_for('dashboard'))
         else:
-            return "Invalid credentials"
+            return "Invalid credentials. Please check your address and password."
     return render_template('login.html')
 
 @app.route('/register', methods=['GET', 'POST'])
