@@ -3,13 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <title>Dashboard</title>
+    <!-- 引入Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- 自定义样式 -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
+    <style>
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+        }
+
+        .dashboard-container {
+            background: linear-gradient(to bottom right, #ffffff, #f1f1f1); /* 添加渐变背景 */
+            padding: 40px;
+            border-radius: 15px; /* 更大的圆角 */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15), 0 16px 32px rgba(0, 0, 0, 0.05); /* 添加更柔和的多重阴影 */
+            width: 100%;
+            max-width: 500px; /* 增大Dashboard的宽度 */
+            text-align: center;
+            border: 1px solid rgba(0, 0, 0, 0.1); /* 添加轻微的边框 */
+            position: relative; /* 设置定位，为装饰元素做准备 */
+            overflow: hidden; /* 隐藏溢出 */
+        }
+
+        .dashboard-container h2 {
+            margin-bottom: 30px;
+            font-weight: bold; /* 加粗标题 */
+            color: #333; /* 改变标题颜色 */
+        }
+
+        .btn-primary {
+            width: 100%;
+            border-radius: 30px; /* 圆角按钮 */
+            background: linear-gradient(135deg, #6a11cb, #2575fc); /* 渐变按钮 */
+            border: none; /* 去掉边框 */
+            padding: 10px 15px; /* 增加按钮的内边距 */
+            font-size: 1.1rem; /* 增大按钮字体 */
+            margin-bottom: 15px; /* 按钮之间的间距 */
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #2575fc, #6a11cb); /* 悬停时反向渐变 */
+        }
+    </style>
 </head>
 <body>
-    <h2>Dashboard</h2>
-    <button onclick="window.location.href='{{ url_for('create_project') }}'">Create Project</button>
-    <button onclick="window.location.href='{{ url_for('view_projects') }}'">View Projects</button>
-    <button onclick="window.location.href='{{ url_for('my_projects') }}'">My Projects</button>
+    <!-- Dashboard 容器 -->
+    <div class="dashboard-container">
+        <h2>Dashboard</h2>
+        <button class="btn btn-primary" onclick="window.location.href='{{ url_for('create_project') }}'">Create Project</button>
+        <button class="btn btn-primary" onclick="window.location.href='{{ url_for('view_projects') }}'">View Projects</button>
+        <button class="btn btn-primary" onclick="window.location.href='{{ url_for('my_projects') }}'">My Projects</button>
+    </div>
+
+    <!-- 引入Bootstrap的JavaScript库 -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

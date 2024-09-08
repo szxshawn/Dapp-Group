@@ -3,17 +3,137 @@
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
+    <!-- 引入Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- 自定义样式 -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+        }
+
+        .login-container {
+            background: linear-gradient(to bottom right, #ffffff, #f1f1f1); /* 添加渐变背景 */
+            padding: 40px;
+            border-radius: 15px; /* 更大的圆角 */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15), 0 16px 32px rgba(0, 0, 0, 0.05); /* 添加更柔和的多重阴影 */
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            border: 1px solid rgba(0, 0, 0, 0.1); /* 添加轻微的边框 */
+            position: relative; /* 设置定位，为装饰元素做准备 */
+            overflow: hidden; /* 隐藏溢出 */
+        }
+
+        .login-container h2 {
+            margin-bottom: 30px;
+            font-weight: bold; /* 加粗标题 */
+            color: #333; /* 改变标题颜色 */
+        }
+
+        .form-group {
+            margin-bottom: 20px; /* 添加底部间距 */
+            text-align: left; /* 标签左对齐 */
+        }
+
+        .form-group label {
+            display: block; /* 标签块显示，位于输入框上方 */
+            margin-bottom: 5px; /* 标签和输入框之间的间距 */
+            font-weight: bold; /* 标签加粗 */
+        }
+
+        .form-control {
+            border-radius: 30px; /* 改变输入框的圆角 */
+            border: 1px solid #ddd; /* 更淡的边框颜色 */
+            padding: 10px 15px; /* 增加内边距 */
+        }
+
+        .form-control:focus {
+            box-shadow: 0 0 8px rgba(33, 150, 243, 0.5); /* 输入框获得焦点时的阴影效果 */
+            border-color: #2196f3; /* 输入框获得焦点时的边框颜色 */
+        }
+
+        .btn-primary {
+            width: 100%;
+            border-radius: 30px; /* 圆角按钮 */
+            background: linear-gradient(135deg, #6a11cb, #2575fc); /* 渐变按钮 */
+            border: none; /* 去掉边框 */
+            padding: 10px 15px; /* 增加按钮的内边距 */
+            font-size: 1.1rem; /* 增大按钮字体 */
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #2575fc, #6a11cb); /* 悬停时反向渐变 */
+        }
+
+        .register-link {
+            display: block;
+            margin-top: 20px;
+            color: #2575fc; /* 改变链接颜色 */
+            text-decoration: none; /* 去掉下划线 */
+            font-weight: bold; /* 加粗文字 */
+        }
+
+        .register-link:hover {
+            text-decoration: underline; /* 悬停时显示下划线 */
+        }
+    </style>
 </head>
 <body>
-    <h2>Login</h2>
-    <form method="post">
-        <label for="wallet_address">User Name:</label>
-        <input type="text" name="wallet_address" required>
-        <label for="password">Password:</label>
-        <input type="password" name="password" required>
-        <button type="submit">Login</button>
-    </form>
-    <a href="{{ url_for('register') }}">Register</a>
+    <!-- 登录表单容器 -->
+    <div class="login-container">
+        <h2>Login</h2>
+        <form method="post" onsubmit="return validateLogin(event);">
+            <div class="form-group">
+                <label for="wallet_address">User Name:</label>
+                <input type="text" class="form-control" name="wallet_address" id="wallet_address" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" class="form-control" name="password" id="password" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Login</button>
+        </form>
+        <a href="{{ url_for('register') }}" class="register-link">Register</a>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="errorModalLabel">Login Failed</h5>
+                    <!-- 移除关闭按钮 -->
+                </div>
+                <div class="modal-body">
+                    Invalid credentials. Please check your address and password. Please also make sure you have registered.
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 引入Bootstrap的JavaScript库 -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        function validateLogin(event) {
+            // 模拟登录验证失败
+            const isValid = false; // 将此逻辑替换为实际的登录验证逻辑
+
+            if (!isValid) {
+                // 显示模态弹窗
+                $('#errorModal').modal('show');
+                return false; // 阻止表单提交
+            }
+            return true; // 表单提交成功
+        }
+    </script>
 </body>
 </html>
